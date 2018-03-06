@@ -1,33 +1,48 @@
+import Homework2.BaseTest;
+import Homework2.pages.DashboardPage;
+import Homework2.pages.LoginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Main {
+import java.util.List;
+
+public class Main extends BaseTest {
     public static void main (String[] args){
-        WebDriver driver = initChromeDriver();
 
-        driver.get("http://prestashop-automation.qatestlab.com.ua/admin147ajyvk0/");
+        WebDriver driver = configuredChromeDriver();
 
-        WebElement EmailField=driver.findElement(By.id("email"));
-        EmailField.sendKeys("webinar.test@gmail.com");
+    // Task 1. Test admin login
+        LoginPage logPage = new LoginPage(driver);
+        logPage.LoginAdminWithCorrectData();
 
-        WebElement PswdField=driver.findElement(By.id("passwd"));
-        PswdField.sendKeys("Xcg7299bnSmMuRLp9ITw");
+        LoadWaiter();
 
-        WebElement EnterButtom=driver.findElement(By.name("submitLogin"));
-        EnterButtom.click();
+        DashboardPage dashPage = new DashboardPage(driver);
+        dashPage.HeaderLogout();
+
+        LoadWaiter();
+        driver.close();
+
+    // Task 2. Test admin's main menu
+        driver = configuredChromeDriver();
+        logPage = new LoginPage(driver);
+        logPage.LoginAdminWithCorrectData();
+
+        dashPage = new DashboardPage(driver);
+        LoadWaiter();
+
+        //list loop for all main-menu items, get their names, load and reload page, compare titles
+        dashPage.CheckMainMenuItems();
 
         driver.close();
     }
 
-    public static WebDriver initChromeDriver(){
-        //get driver path property
-       // String driverPath = System.getProperty("driver.executable");
-      //  if (driverPath == null)
-       //     throw new SkipExeption ("PAth to ChromeDriver is not specified!");
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"/drivers/chromedriver.exe");
-        return new ChromeDriver();
 
-    }
+
+
+
+
+
 }
