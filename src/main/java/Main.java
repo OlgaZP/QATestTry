@@ -1,25 +1,25 @@
 import Homework2.BaseTest;
 import Homework2.pages.DashboardPage;
 import Homework2.pages.LoginPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
 //import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.util.List;
 
 public class Main extends BaseTest {
     public static void main (String[] args){
+
+        System.out.println("test path "+BaseTest.class.getResource("../chromedriver.exe"));
 
         WebDriver driver = configuredChromeDriver();
 
     // Task 1. Test admin login
         LoginPage logPage = new LoginPage(driver);
+        LoadWaiter();
         logPage.LoginAdminWithCorrectData();
 
-        LoadWaiter();
-
         DashboardPage dashPage = new DashboardPage(driver);
+        LoadWaiter();
         dashPage.HeaderLogout();
 
         LoadWaiter();
@@ -28,6 +28,7 @@ public class Main extends BaseTest {
     // Task 2. Test admin's main menu
         driver = configuredChromeDriver();
         logPage = new LoginPage(driver);
+        LoadWaiter();
         logPage.LoginAdminWithCorrectData();
 
         dashPage = new DashboardPage(driver);
